@@ -1,0 +1,65 @@
+# ----------------------------------------
+# Go build artifacts
+# ----------------------------------------
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go coverage tools
+*.cover
+*.coverprofile
+*.cov
+coverage.*
+
+# Go workspace files
+*.go.work
+*.go.work.sum
+
+# Go vendor folder (optional: remove if you commit vendor/)
+vendor/
+
+# Build directories
+/bin/
+/build/
+/dist/
+
+# ----------------------------------------
+# macOS system files
+# ----------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# macOS metadata files
+.Spotlight-V100
+.Trashes
+Icon?
+
+# ----------------------------------------
+# VS Code settings and workspace files
+# ----------------------------------------
+.vscode/
+*.code-workspace
+
+# ----------------------------------------
+# Temporary/editor files
+# ----------------------------------------
+*.log
+*.bak
+*.swp
+*.swo
+*.swn
+*~
+
+# ----------------------------------------
+# Environment and config files (if used)
+# ----------------------------------------
+.env
+.env.*
