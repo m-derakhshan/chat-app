@@ -1,23 +1,13 @@
 package command
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"media.hiway.chat/internal/chat/adapter/persistence"
 	"media.hiway.chat/internal/chat/domain/service/room"
 )
 
-type createRoomRequest struct {
-	Name string `json:"room_name"`
-}
-
 func AddRome(writer http.ResponseWriter, request *http.Request) {
-	var req createRoomRequest
-	if err := json.NewDecoder(request.Body).Decode(&req); err != nil {
-		http.Error(writer, "Invalid request body", http.StatusBadRequest)
-		return
-	}
 
 	db, err := persistence.InitPostgres()
 	if err != nil {
@@ -28,7 +18,7 @@ func AddRome(writer http.ResponseWriter, request *http.Request) {
 	repository := persistence.NewRoomRepository(db)
 	service := room.NewCreateRoom(repository)
 
-	if err := service.Execute(req.Name); err != nil {
+	if err := service.Execute(request.Body); err != nil {
 		http.Error(writer, err.Error(), http.StatusBadRequest)
 		return
 	}
