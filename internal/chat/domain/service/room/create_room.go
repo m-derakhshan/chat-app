@@ -6,14 +6,17 @@ import (
 	"media.hiway.chat/internal/chat/domain/port"
 )
 
+
+
+type CreateRoom struct {
+	repository port.RoomRepository
+}
+
+
 func NewCreateRoom(repository port.RoomRepository) *CreateRoom {
 	return &CreateRoom{
 		repository: repository,
 	}
-}
-
-type CreateRoom struct {
-	repository port.RoomRepository
 }
 
 func (c *CreateRoom) Execute(roomName string) error {

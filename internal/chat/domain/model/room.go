@@ -1,7 +1,7 @@
 package model
 
 type RoomModel struct {
-	ID           string
-	Name         string
-	Participants map[string]*UserModel
+	ID           string                `json:"id"`
+	Name         string                `json:"name"`
+	Participants map[string]*UserModel `json:"participants,omitempty"`
 }
