@@ -16,7 +16,12 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	// if err:= persistence.RunMigrations(); err != nil {
+	// 	log.Fatalf("Failed to run migrations: %v", err)
+	// }
+
 	router := mux.NewRouter()
+
 	rest.RegisterRoomRoutes(router)
 
 	router.Use(middleware.LoggingMiddleware)
