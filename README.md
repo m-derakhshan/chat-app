@@ -32,17 +32,20 @@ This project is a **real-time WebSocket-based chat application** built using Go.
 
 ```bash
 .
-├── cmd                     # Application entry point (main.go)
-├── internal
-│   └── chat
-│       ├── adapter         # Infrastructure layer
-│       │   ├── di          # Dependency injection
-│       │   ├── persistence # Repository implementations
-│       │   ├── rest        # HTTP REST handlers (optional)
-│       │   └── websocket   # WebSocket connection handlers
-│       ├── app             # Application layer (use cases)
-│       └── domain          # Domain layer (models, services, ports)
-│           ├── model
-│           ├── port
-│           └── service
-└── test                   # Unit and integration tests
+├── cmd
+└── internal
+    └── chat
+        ├── adapter
+        │   ├── middleware
+        │   ├── persistence
+        │   │   ├── migrations
+        │   └── rest
+        ├── app
+        │   └── room
+        │       ├── command
+        │       └── query
+        └── domain
+            ├── model
+            ├── port
+            └── service
+                └── room
