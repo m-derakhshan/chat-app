@@ -60,3 +60,9 @@ This project is a **real-time WebSocket-based chat application** built using Go.
    cp sample.env .env
 
 2. Open the newly created .env file and fill in the required values based on your environment.
+
+#####  Setup Postgresql
+   ```bash
+   brew install postgresql
+   brew services start postgresql
+   createdb your_database_name
