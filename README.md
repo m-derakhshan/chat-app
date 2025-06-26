@@ -49,3 +49,14 @@ This project is a **real-time WebSocket-based chat application** built using Go.
             ├── port
             └── service
                 └── room
+```
+---
+
+## ⚙️ Project Setup
+
+1. Copy the example environment file:
+
+   ```bash
+   cp sample.env .env
+
+2. Open the newly created .env file and fill in the required values based on your environment.
