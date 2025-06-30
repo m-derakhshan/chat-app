@@ -1,16 +1,11 @@
 package room
 
 import (
-	"encoding/json"
 	"errors"
-	"io"
 
+	"media.hiway.chat/internal/chat/domain/model"
 	"media.hiway.chat/internal/chat/domain/port"
 )
-
-type createRoomRequest struct {
-	Name string `json:"room_name"`
-}
 
 type createRoom struct {
 	repository port.RoomRepository
@@ -22,21 +17,15 @@ func NewCreateRoom(repository port.RoomRepository) *createRoom {
 	}
 }
 
-func (c *createRoom) Execute(body io.ReadCloser) error {
+func (c *createRoom) Execute(roomName string) (*model.RoomModel, error) {
 
-	var req createRoomRequest
-
-	if err := json.NewDecoder(body).Decode(&req); err != nil {
-		return errors.New("invalid request body")
+	if roomName == "" {
+		return nil, errors.New("room name cannot be empty")
 	}
 
-	if req.Name == "" {
-		return errors.New("room name cannot be empty")
+	room, err := c.repository.CreateRoom(roomName)
+	if err != nil {
+		return nil, err
 	}
-
-	if err := c.repository.CreateRoom(req.Name); err != nil {
-		return err
-	}
-
-	return nil
+	return room, nil
 }

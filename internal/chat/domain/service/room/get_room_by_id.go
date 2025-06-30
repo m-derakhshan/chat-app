@@ -9,6 +9,8 @@ import (
 	"media.hiway.chat/internal/chat/domain/port"
 )
 
+
+
 type getRoomRequest struct {
 	ID string `json:"room_id"`
 }
@@ -22,6 +24,8 @@ func NewGetRoomByID(repository port.RoomRepository) *getRoomByID {
 		repository: repository,
 	}
 }
+
+//todo: remove the body and follow the pattern from create room
 
 func (g getRoomByID) Execute(body io.ReadCloser) (*model.RoomModel, error) {
 

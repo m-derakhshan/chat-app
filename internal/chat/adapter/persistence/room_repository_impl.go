@@ -19,20 +19,26 @@ func NewRoomRepository(db *pgxpool.Pool) port.RoomRepository {
 	return &roomRepositoryImpl{db: db}
 }
 
-func (repository *roomRepositoryImpl) CreateRoom(roomName string) error {
+func (repository *roomRepositoryImpl) CreateRoom(roomName string) (*model.RoomModel, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	uuid := uuid.NewV4().String()
 	_, err := repository.db.Exec(ctx, `INSERT INTO rooms (id, name) VALUES ($1, $2)`, uuid, roomName)
-	return err
+
+	room := &model.RoomModel{
+		ID:           uuid,
+		Name:         roomName,
+		Participants: make(map[string]*model.UserModel),
+	}
+	return room, err
 }
 
-func (repositoru *roomRepositoryImpl) GetAllRooms() (*[]model.RoomModel, error) {
+func (repository *roomRepositoryImpl) GetAllRooms() (*[]model.RoomModel, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	rows, err := repositoru.db.Query(ctx, `SELECT id, name FROM rooms`)
+	rows, err := repository.db.Query(ctx, `SELECT id, name FROM rooms`)
 	if err != nil {
 		return nil, err
 	}
