@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"media.hiway.chat/internal/chat/adapter/persistence"
+	"media.hiway.chat/internal/chat/adapter/utils"
 	"media.hiway.chat/internal/chat/domain/service/room"
 )
 
@@ -12,7 +13,8 @@ func GetAllRooms(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()
 	if err != nil {
-		http.Error(writer, "Internal server error. Failed to connect to the PostgreSQL", http.StatusInternalServerError)
+		utils.NewErrorResponse(writer, http.StatusInternalServerError, err.Error())
+		return
 	}
 	defer db.Close()
 
@@ -21,13 +23,14 @@ func GetAllRooms(writer http.ResponseWriter, request *http.Request) {
 
 	rooms, err := service.Execute()
 	if err != nil {
-		http.Error(writer, err.Error(), http.StatusBadRequest)
+		utils.NewErrorResponse(writer, http.StatusBadRequest, err.Error())
 		return
 	}
 
+	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(writer).Encode(*rooms); err != nil {
-		http.Error(writer, "Failed to encode rooms to JSON", http.StatusInternalServerError)
+		utils.NewErrorResponse(writer, http.StatusInternalServerError, err.Error())
 		return
 	}
 }
@@ -36,22 +39,30 @@ func GetRoomByID(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()
 	if err != nil {
-		http.Error(writer, "Internal server error. Failed to connect to the PostgreSQL", http.StatusInternalServerError)
+		utils.NewErrorResponse(writer, http.StatusInternalServerError, err.Error())
+		return
 	}
 	defer db.Close()
 
 	repository := persistence.NewRoomRepository(db)
 	service := room.NewGetRoomByID(repository)
 
-	rooms, err := service.Execute(request.Body)
-	if err != nil {
-		http.Error(writer, err.Error(), http.StatusBadRequest)
+	id := request.URL.Query().Get("id")
+	if id == "" {
+		utils.NewErrorResponse(writer, http.StatusBadRequest, "invalid query parameters")
 		return
 	}
 
+	rooms, err := service.Execute(id)
+	if err != nil {
+		utils.NewErrorResponse(writer, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(writer).Encode(*rooms); err != nil {
-		http.Error(writer, "Failed to encode rooms to JSON", http.StatusInternalServerError)
+		utils.NewErrorResponse(writer, http.StatusInternalServerError, err.Error())
 		return
 	}
 }

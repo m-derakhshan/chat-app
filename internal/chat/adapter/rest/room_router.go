@@ -8,5 +8,8 @@ import (
 
 func RegisterRoomRoutes(router *mux.Router) {
 	router.HandleFunc("/rooms", query.GetAllRooms).Methods(("GET"))
-	router.HandleFunc("/rooms", command.AddRoom).Methods(("POST"))
+	router.HandleFunc("/room", query.GetRoomByID).Methods("GET")
+	router.HandleFunc("/room", command.AddRoom).Methods(("POST"))
+	router.HandleFunc("/room", command.UpdateRoomName).Methods("PATCH")
+	router.HandleFunc("/room", command.DeleteRoom).Methods("DELETE")
 }

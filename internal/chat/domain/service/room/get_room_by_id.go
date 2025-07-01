@@ -1,19 +1,11 @@
 package room
 
 import (
-	"encoding/json"
 	"errors"
-	"io"
 
 	"media.hiway.chat/internal/chat/domain/model"
 	"media.hiway.chat/internal/chat/domain/port"
 )
-
-
-
-type getRoomRequest struct {
-	ID string `json:"room_id"`
-}
 
 type getRoomByID struct {
 	repository port.RoomRepository
@@ -25,21 +17,14 @@ func NewGetRoomByID(repository port.RoomRepository) *getRoomByID {
 	}
 }
 
-//todo: remove the body and follow the pattern from create room
 
-func (g getRoomByID) Execute(body io.ReadCloser) (*model.RoomModel, error) {
+func (g getRoomByID) Execute(roomID string) (*model.RoomModel, error) {
 
-	var req getRoomRequest
-
-	if err := json.NewDecoder(body).Decode(&req); err != nil {
-		return nil, errors.New("invalid request body")
+	if roomID == "" {
+		return nil, errors.New("room id cannot be empty")
 	}
 
-	if req.ID == "" {
-		return nil, errors.New("room ID cannot be empty")
-	}
-
-	room, err := g.repository.GetRoomByID(req.ID)
+	room, err := g.repository.GetRoomByID(roomID)
 	if err != nil {
 		return nil, err
 	}

@@ -73,28 +73,12 @@ func (repository *roomRepositoryImpl) GetRoomByID(roomID string) (*model.RoomMod
 
 }
 
-func (repository *roomRepositoryImpl) GetRoomByName(roomName string) (*model.RoomModel, error) {
+func (repository *roomRepositoryImpl) UpdateRoomName(roomID string, roomName string) (*model.RoomModel, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	row := repository.db.QueryRow(ctx, "SELECT id, name FROM rooms WHERE name = $1", roomName)
-	var room model.RoomModel
-
-	if err := row.Scan(&room.ID, &room.Name); err != nil {
-		return nil, err
-	}
-
-	return &room, nil
-
-}
-
-func (repository *roomRepositoryImpl) UpdateRoomName(roomName string, roomID string) (*model.RoomModel, error) {
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	query := "UPDATE rooms SET name = $1 WHERE id = &2 RETURNING id, name"
+	query := "UPDATE rooms SET name = $1 WHERE id = $2 RETURNING id, name"
 	var room model.RoomModel
 
 	if err := repository.db.QueryRow(ctx, query, roomName, roomID).Scan(&room.ID, &room.Name); err != nil {
