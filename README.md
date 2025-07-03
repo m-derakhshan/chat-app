@@ -91,4 +91,4 @@ This project is a **real-time WebSocket-based chat application** built using Go.
    ```bash
    brew install postgresql
    brew services start postgresql
-   createdb your_database_name
+   createdb chat_app
