@@ -43,8 +43,6 @@ This project is a **real-time WebSocket-based chat application** built using Go.
 │       │   │   └── logging.go
 │       │   ├── persistence
 │       │   │   ├── migrations
-│       │   │   │   ├── 20250625163230_create_rooms_table.down.sql
-│       │   │   │   └── 20250625163230_create_rooms_table.up.sql
 │       │   │   ├── postgresql.go
 │       │   │   └── room_repository_impl.go
 │       │   ├── rest
