@@ -33,22 +33,50 @@ This project is a **real-time WebSocket-based chat application** built using Go.
 ```bash
 .
 ├── cmd
-└── internal
-    └── chat
-        ├── adapter
-        │   ├── middleware
-        │   ├── persistence
-        │   │   ├── migrations
-        │   └── rest
-        ├── app
-        │   └── room
-        │       ├── command
-        │       └── query
-        └── domain
-            ├── model
-            ├── port
-            └── service
-                └── room
+│   └── main.go
+├── go.mod
+├── go.sum
+├── internal
+│   └── chat
+│       ├── adapter
+│       │   ├── middleware
+│       │   │   └── logging.go
+│       │   ├── persistence
+│       │   │   ├── migrations
+│       │   │   │   ├── 20250625163230_create_rooms_table.down.sql
+│       │   │   │   └── 20250625163230_create_rooms_table.up.sql
+│       │   │   ├── postgresql.go
+│       │   │   └── room_repository_impl.go
+│       │   ├── rest
+│       │   │   ├── dto
+│       │   │   │   └── room
+│       │   │   │       ├── create_room_request.go
+│       │   │   │       └── update_room_request.go
+│       │   │   └── room_router.go
+│       │   └── utils
+│       │       └── error_response.go
+│       ├── controller
+│       │   └── room
+│       │       ├── command
+│       │       │   └── room_command.go
+│       │       └── query
+│       │           └── room_query.go
+│       └── domain
+│           ├── model
+│           │   ├── error_response.go
+│           │   ├── room.go
+│           │   └── user.go
+│           ├── port
+│           │   └── room_repository.go
+│           └── service
+│               └── room
+│                   ├── create_room.go
+│                   ├── delete_room.go
+│                   ├── get_all_rooms.go
+│                   ├── get_room_by_id.go
+│                   └── update_room_name.go
+├── README.md
+└── sample.env
 ```
 ---
 
