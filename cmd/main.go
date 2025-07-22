@@ -23,6 +23,7 @@ func main() {
 	router := mux.NewRouter()
 
 	rest.RegisterRoomRoutes(router)
+	rest.RegisterUserRoutes(router)
 
 	router.Use(middleware.LoggingMiddleware)
 

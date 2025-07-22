@@ -52,7 +52,14 @@ func (r *userRepositoryImpl) UpdateUser(userID string, firstName string, lastNam
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	query := `UPDATE users SET firstname = $1, lastname = $2 WHERE id = $3 RETURNING id, firstname, lastname`
+	var query string
+	if firstName == "" {
+		query = `UPDATE users SET lastname = $1 WHERE id = $2 RETURNING id, firstname, lastname`
+	} else if lastName == "" {
+		query = `UPDATE users SET firstname = $1 WHERE id = $2 RETURNING id, firstname, lastname`
+	} else {
+		query = `UPDATE users SET firstname = $1, lastname = $2 WHERE id = $3 RETURNING id, firstname, lastname`
+	}
 
 	var user model.UserModel
 
