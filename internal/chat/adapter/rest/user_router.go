@@ -7,7 +7,6 @@ import (
 )
 
 func RegisterUserRoutes(router *mux.Router) {
-	router.HandleFunc("/users", query.GetAllUsers).Methods("GET")
 	router.HandleFunc("/user", query.GetUserByID).Methods("GET")
 	router.HandleFunc("/user", command.AddUser).Methods("POST")
 	router.HandleFunc("/user", command.UpdateUser).Methods("PATCH")
