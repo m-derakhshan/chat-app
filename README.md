@@ -79,4 +79,4 @@ This project is a **real-time WebSocket-based chat application** built using Go.
 ```
 
 ## 📋 Documentation:
-localhost:8080/docs/index.html
+`localhost:8080/docs/index.html`
