@@ -10,6 +10,16 @@ import (
 	"media.hiway.chat/internal/chat/domain/service/user"
 )
 
+// AddUser godoc
+// @Summary      Add a new user
+// @Description  Creates a new user with first and last name
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        user  body      user.CreateUserRequest  true  "User creation payload"
+// @Success      201   {object}  model.UserModel
+// @Failure      400   {object}  model.ErrorResponse
+// @Router       /user [post]
 func AddUser(writer http.ResponseWriter, request *http.Request) {
 	db, err := persistence.InitPostgres()
 	if err != nil {
@@ -44,6 +54,18 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 
+// UpdateUser godoc
+// @Summary      Update an existing user
+// @Description  Updates first name and last name of a user by ID
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        id    query     string                 true  "User ID"
+// @Param        user  body      user.UpdateUserRequest true  "User update payload"
+// @Success      200   {object}  model.UserModel
+// @Failure      400   {object}  model.ErrorResponse
+// @Failure      500   {object}  model.ErrorResponse
+// @Router       /user [patch]
 func UpdateUser(writer http.ResponseWriter, request *http.Request) {
 	db, err := persistence.InitPostgres()
 	if err != nil {
@@ -79,6 +101,16 @@ func UpdateUser(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 
+// DeleteUser godoc
+// @Summary      Delete a user by ID
+// @Description  Deletes a user and returns the deleted user object
+// @Tags         user
+// @Produce      json
+// @Param        id   query     string  true  "User ID"
+// @Success      200  {object}  model.UserModel
+// @Failure      400  {object}  model.ErrorResponse
+// @Failure      500  {object}  model.ErrorResponse
+// @Router       /user [delete]
 func DeleteUser(writer http.ResponseWriter, request *http.Request) {
 	db, err := persistence.InitPostgres()
 	if err != nil {

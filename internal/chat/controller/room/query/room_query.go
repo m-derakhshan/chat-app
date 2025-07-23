@@ -9,6 +9,14 @@ import (
 	"media.hiway.chat/internal/chat/domain/service/room"
 )
 
+// GetAllRooms godoc
+// @Summary      Get all rooms
+// @Description  Returns a list of all chat rooms
+// @Tags         room
+// @Produce      json
+// @Success      200  {array}   model.RoomModel
+// @Failure      400  {object}  model.ErrorResponse
+// @Router       /rooms [get]
 func GetAllRooms(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()
@@ -35,6 +43,15 @@ func GetAllRooms(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 
+// GetRoomByID godoc
+// @Summary      Get a room by ID
+// @Description  Returns a single chat room by its UUID
+// @Tags         room
+// @Produce      json
+// @Param        id   query     string  true  "Room UUID"
+// @Success      200  {object}  model.RoomModel
+// @Failure      400  {object}  model.ErrorResponse
+// @Router       /room [get]
 func GetRoomByID(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()

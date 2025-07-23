@@ -10,6 +10,18 @@ import (
 	"media.hiway.chat/internal/chat/domain/service/room"
 )
 
+
+
+// AddRoom godoc
+// @Summary      Create a new chat room
+// @Description  Creates a new room with the given name
+// @Tags         room
+// @Accept       json
+// @Produce      json
+// @Param        room  body      room.CreateRoomRequest  true  "Room creation payload"
+// @Success      201   {object}  model.RoomModel
+// @Failure      400   {object}  model.ErrorResponse
+// @Router       /room [post]
 func AddRoom(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()
@@ -46,6 +58,18 @@ func AddRoom(writer http.ResponseWriter, request *http.Request) {
 
 }
 
+
+// UpdateRoomName godoc
+// @Summary      Update a room's name
+// @Description  Update the name of a chat room by its ID
+// @Tags         room
+// @Accept       json
+// @Produce      json
+// @Param        id    query     string                 true   "Room ID"
+// @Param        room  body      room.UpdateRoomRequest  true   "Updated room name"
+// @Success      200   {object}  model.RoomModel
+// @Failure      400   {object}  model.ErrorResponse
+// @Router       /room [patch]
 func UpdateRoomName(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()
@@ -83,6 +107,16 @@ func UpdateRoomName(writer http.ResponseWriter, request *http.Request) {
 
 }
 
+
+// DeleteRoom godoc
+// @Summary      Delete a room by ID
+// @Description  Deletes a chat room identified by its ID
+// @Tags         room
+// @Produce      json
+// @Param        id   query     string  true  "Room ID to delete"
+// @Success      200  {object}  model.RoomModel
+// @Failure      500  {object}  model.ErrorResponse
+// @Router       /room [delete]
 func DeleteRoom(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()

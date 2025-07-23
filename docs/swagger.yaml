@@ -1,0 +1,308 @@
+basePath: /
+definitions:
+  model.ErrorResponse:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: Bad Request
+        type: string
+    type: object
+  model.RoomModel:
+    properties:
+      id:
+        example: 70383d59-3b82-4ebb-bdc5-adf7a036dda5
+        type: string
+      name:
+        example: General Chat
+        type: string
+    type: object
+  model.UserModel:
+    properties:
+      first_name:
+        example: John
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      last_name:
+        example: Doe
+        type: string
+    type: object
+  room.CreateRoomRequest:
+    properties:
+      name:
+        description: Room name must be between 1 and 100 characters
+        maxLength: 100
+        minLength: 1
+        type: string
+    required:
+    - name
+    type: object
+  room.UpdateRoomRequest:
+    properties:
+      name:
+        description: Room name must be between 1 and 100 characters
+        maxLength: 100
+        minLength: 1
+        type: string
+    required:
+    - name
+    type: object
+  user.CreateUserRequest:
+    properties:
+      first_name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      last_name:
+        maxLength: 100
+        minLength: 1
+        type: string
+    required:
+    - first_name
+    - last_name
+    type: object
+  user.UpdateUserRequest:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: The APIs of Chat application.
+  title: Chat API
+  version: "1.0"
+paths:
+  /room:
+    delete:
+      description: Deletes a chat room identified by its ID
+      parameters:
+      - description: Room ID to delete
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.RoomModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Delete a room by ID
+      tags:
+      - room
+    get:
+      description: Returns a single chat room by its UUID
+      parameters:
+      - description: Room UUID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.RoomModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Get a room by ID
+      tags:
+      - room
+    patch:
+      consumes:
+      - application/json
+      description: Update the name of a chat room by its ID
+      parameters:
+      - description: Room ID
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Updated room name
+        in: body
+        name: room
+        required: true
+        schema:
+          $ref: '#/definitions/room.UpdateRoomRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.RoomModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Update a room's name
+      tags:
+      - room
+    post:
+      consumes:
+      - application/json
+      description: Creates a new room with the given name
+      parameters:
+      - description: Room creation payload
+        in: body
+        name: room
+        required: true
+        schema:
+          $ref: '#/definitions/room.CreateRoomRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.RoomModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Create a new chat room
+      tags:
+      - room
+  /rooms:
+    get:
+      description: Returns a list of all chat rooms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.RoomModel'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Get all rooms
+      tags:
+      - room
+  /user:
+    delete:
+      description: Deletes a user and returns the deleted user object
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.UserModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Delete a user by ID
+      tags:
+      - user
+    get:
+      description: Returns a single user by their UUID
+      parameters:
+      - description: User ID (UUID)
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.UserModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Get a user by ID
+      tags:
+      - user
+    patch:
+      consumes:
+      - application/json
+      description: Updates first name and last name of a user by ID
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: User update payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.UserModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Update an existing user
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user with first and last name
+      parameters:
+      - description: User creation payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.UserModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Add a new user
+      tags:
+      - user
+swagger: "2.0"

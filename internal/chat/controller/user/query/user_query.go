@@ -9,6 +9,15 @@ import (
 	"media.hiway.chat/internal/chat/domain/service/user"
 )
 
+// GetUserByID godoc
+// @Summary      Get a user by ID
+// @Description  Returns a single user by their UUID
+// @Tags         user
+// @Produce      json
+// @Param        id   query     string     true  "User ID (UUID)"
+// @Success      200  {object}  model.UserModel
+// @Failure      400  {object}  model.ErrorResponse
+// @Router       /user [get]
 func GetUserByID(writer http.ResponseWriter, request *http.Request) {
 
 	db, err := persistence.InitPostgres()

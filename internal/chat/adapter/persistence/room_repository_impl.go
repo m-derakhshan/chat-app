@@ -29,7 +29,6 @@ func (repository *roomRepositoryImpl) CreateRoom(roomName string) (*model.RoomMo
 	room := &model.RoomModel{
 		ID:           uuid,
 		Name:         roomName,
-		Participants: make(map[string]*model.UserModel),
 	}
 	return room, err
 }
