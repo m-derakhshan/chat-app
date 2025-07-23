@@ -76,6 +76,7 @@ This project is a **real-time WebSocket-based chat application** built using Go.
    brew install postgresql
    brew services start postgresql
    createdb chat_app
+```
 
 ## 📋 Documentation:
 localhost:8080/docs/index.html
