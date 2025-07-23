@@ -31,50 +31,34 @@ This project is a **real-time WebSocket-based chat application** built using Go.
 ## 📁 Folder Structure
 
 ```bash
-.
 ├── cmd
-│   └── main.go
-├── go.mod
-├── go.sum
+├── docs
 ├── internal
 │   └── chat
 │       ├── adapter
 │       │   ├── middleware
-│       │   │   └── logging.go
 │       │   ├── persistence
 │       │   │   ├── migrations
-│       │   │   ├── postgresql.go
-│       │   │   └── room_repository_impl.go
 │       │   ├── rest
 │       │   │   ├── dto
-│       │   │   │   └── room
-│       │   │   │       ├── create_room_request.go
-│       │   │   │       └── update_room_request.go
-│       │   │   └── room_router.go
-│       │   └── utils
-│       │       └── error_response.go
+│       │   │   │   ├── room
+│       │   │   │   └── user
+│       │   ├── utils
+│       │   └── websocket
 │       ├── controller
-│       │   └── room
+│       │   ├── room
+│       │   │   ├── command
+│       │   │   └── query
+│       │   └── user
 │       │       ├── command
-│       │       │   └── room_command.go
 │       │       └── query
-│       │           └── room_query.go
 │       └── domain
 │           ├── model
-│           │   ├── error_response.go
-│           │   ├── room.go
-│           │   └── user.go
 │           ├── port
-│           │   └── room_repository.go
 │           └── service
-│               └── room
-│                   ├── create_room.go
-│                   ├── delete_room.go
-│                   ├── get_all_rooms.go
-│                   ├── get_room_by_id.go
-│                   └── update_room_name.go
-├── README.md
-└── sample.env
+│               ├── room
+│               └── user
+└── test
 ```
 ---
 
