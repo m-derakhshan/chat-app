@@ -7,8 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/golang-migrate/migrate"
-	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5"
+	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -40,7 +39,7 @@ func InitPostgres() (*pgxpool.Pool, error) {
 
 func RunMigrations() error {
 
-	dsn := fmt.Sprintf("postgres://%s:%s@%s/%s",
+	dsn := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
 		os.Getenv("POSTGRES_USER"),
 		os.Getenv("POSTGRES_PASSWORD"),
 		os.Getenv("POSTGRES_HOST"),

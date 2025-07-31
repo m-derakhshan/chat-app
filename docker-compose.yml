@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15
+    container_name: chat_postgres
+    environment:
+      POSTGRES_DB: chat_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+
+  app:
+    build: .
+    container_name: chat_app
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: db
+      POSTGRES_NAME: chat_app
+    ports:
+      - "8080:8080"
+    restart: always
+
+volumes:
+  db_data:
